@@ -1,41 +1,55 @@
 <?php
 /**
- * Footer Menus and Widgets
+ * Displays the menus and widgets at the end of the main element.
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
+ * @since Twenty Twenty 1.0
  */
 
-// Chỉ hiển thị phần menu và widget trong footer nếu có
-if ( is_active_sidebar( 'footer-1' ) || has_nav_menu( 'footer' ) ) :
+$has_footer_menu = has_nav_menu('footer');
+$has_social_menu = has_nav_menu('social');
+
+$has_sidebar_1 = is_active_sidebar('sidebar-1');
+$has_sidebar_2 = is_active_sidebar('sidebar-2');
+$has_sidebar_3 = is_active_sidebar('sidebar-3');
+
+if ($has_footer_menu || $has_social_menu || $has_sidebar_1 || $has_sidebar_2 || $has_sidebar_3) {
+    ?>
+    <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+
+            <!-- 3 cột widget -->
+            <div class="row text-center text-xs-center text-sm-left text-md-left">
+                <?php if ($has_sidebar_1): ?>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <ul class="list-unstyled quick-links">
+                            <?php dynamic_sidebar('sidebar-1'); ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+                <?php if ($has_sidebar_2): ?>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <ul class="list-unstyled quick-links">
+                            <?php dynamic_sidebar('sidebar-2'); ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+                <?php if ($has_sidebar_3): ?>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <ul class="list-unstyled quick-links">
+                            <?php dynamic_sidebar('sidebar-3'); ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            
+
+        </div>
+    </section>
+    <!-- ./Footer -->
+    <?php
+}
 ?>
-
-<div class="footer-widgets">
-    <div class="widget-area">
-
-        <?php
-        // Hiển thị Widget trong Footer - Footer Widget 1
-        if ( is_active_sidebar( 'footer-1' ) ) :
-            dynamic_sidebar( 'footer-1' );
-        endif;
-        ?>
-
-    </div>
-
-    <div class="footer-nav">
-        <?php
-        // Hiển thị menu Footer nếu có
-        if ( has_nav_menu( 'footer' ) ) :
-            wp_nav_menu(
-                array(
-                    'theme_location' => 'footer',
-                    'menu_class'     => 'footer-menu',
-                    'depth'           => 1,
-                )
-            );
-        endif;
-        ?>
-    </div>
-</div>
-
-<?php endif; ?>
